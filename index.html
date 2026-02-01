@@ -24,7 +24,7 @@
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             z-index: 1;
-            max-width: 80%;
+            max-width: 85%;
         }
 
         h1 { color: #ff4d6d; margin-bottom: 30px; line-height: 1.4; }
@@ -34,6 +34,7 @@
             justify-content: center;
             gap: 40px;
             min-height: 60px;
+            margin-bottom: 20px;
         }
 
         button {
@@ -55,6 +56,31 @@
             z-index: 999;
         }
 
+        /* The Warning Text */
+        .warning {
+            color: #d00000;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .knife {
+            display: inline-block;
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
+
         #celebration {
             display: none;
             position: fixed;
@@ -71,12 +97,9 @@
         .heart-main { font-size: 100px; animation: pulse 0.8s infinite alternate; }
         @keyframes pulse { to { transform: scale(1.2); } }
 
-        /* Confetti Animation */
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ff4d6d;
+            width: 10px; height: 10px;
             animation: fall 3s linear infinite;
         }
 
@@ -93,6 +116,9 @@
             <button id="yesBtn" onclick="celebrate()">Yes</button>
             <button id="noBtn" onmouseover="moveButton()" onmouseenter="moveButton()">No</button>
         </div>
+        <div class="warning">
+            Dare you say no... <span class="knife">🔪</span> No nahi kehna!
+        </div>
     </div>
 
     <div id="celebration">
@@ -104,11 +130,9 @@
     <script>
         function moveButton() {
             const btn = document.getElementById('noBtn');
-            
-            // Ensures the button can fly anywhere on the screen
             btn.style.position = 'fixed'; 
 
-            const padding = 50; // Safety margin from edges
+            const padding = 50; 
             const maxWidth = window.innerWidth - btn.offsetWidth - padding;
             const maxHeight = window.innerHeight - btn.offsetHeight - padding;
 
@@ -125,7 +149,7 @@
         }
 
         function createConfetti() {
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 60; i++) {
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
                 confetti.style.left = Math.random() * 100 + 'vw';
