@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question</title>
+    <title>For Pratishtha</title>
     <style>
         body {
             margin: 0;
@@ -14,7 +14,7 @@
             height: 100vh;
             background-color: #ffe6e6;
             font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Prevents scrollbars if the button moves near edge */
+            overflow: hidden;
         }
 
         .container {
@@ -24,14 +24,15 @@
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             z-index: 1;
+            max-width: 80%;
         }
 
-        h1 { color: #ff4d6d; margin-bottom: 30px; }
+        h1 { color: #ff4d6d; margin-bottom: 30px; line-height: 1.4; }
 
         .btn-wrapper {
             display: flex;
             justify-content: center;
-            gap: 40px; /* Ensures they are separate at the start */
+            gap: 40px;
             min-height: 60px;
         }
 
@@ -42,15 +43,16 @@
             border: none;
             border-radius: 15px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: transform 0.2s;
         }
 
         #yesBtn { background-color: #ff4d6d; color: white; }
+        #yesBtn:hover { transform: scale(1.1); }
 
         #noBtn {
             background-color: #888;
             color: white;
-            /* No absolute positioning here so it stays in the gap */
+            z-index: 999;
         }
 
         #celebration {
@@ -63,16 +65,30 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            text-align: center;
         }
 
-        .heart { font-size: 100px; animation: pulse 0.8s infinite alternate; }
+        .heart-main { font-size: 100px; animation: pulse 0.8s infinite alternate; }
         @keyframes pulse { to { transform: scale(1.2); } }
+
+        /* Confetti Animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d6d;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Pratishtha will you be my Valentine? ❤️</h1>
+        <h1>Pratishtha will you be my valentine? ❤️</h1>
         <div class="btn-wrapper">
             <button id="yesBtn" onclick="celebrate()">Yes</button>
             <button id="noBtn" onmouseover="moveButton()" onmouseenter="moveButton()">No</button>
@@ -80,35 +96,44 @@
     </div>
 
     <div id="celebration">
-        <div class="heart">💖</div>
-        <h1 style="color: #ff4d6d;">I knew you'd say Yes!</h1>
-        <p>I'm the luckiest person alive!</p>
+        <div class="heart-main">💖</div>
+        <h1 style="color: #ff4d6d;">I knew you'd say Yes, Pratishtha!</h1>
+        <p>I'm the luckiest person alive! ✨</p>
     </div>
 
     <script>
         function moveButton() {
             const btn = document.getElementById('noBtn');
             
-            // 1. Switch to absolute so it can move anywhere
+            // Ensures the button can fly anywhere on the screen
             btn.style.position = 'fixed'; 
 
-            // 2. Calculate usable screen dimensions
-            // We subtract the button width/height so it doesn't go off-edge
-            const padding = 20;
+            const padding = 50; // Safety margin from edges
             const maxWidth = window.innerWidth - btn.offsetWidth - padding;
             const maxHeight = window.innerHeight - btn.offsetHeight - padding;
 
-            // 3. Generate random coordinates within the "Safe Zone"
             const randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
             const randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
 
-            // 4. Apply the new position
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
         }
 
         function celebrate() {
             document.getElementById('celebration').style.display = 'flex';
+            createConfetti();
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = ['#ff4d6d', '#ffafcc', '#ffc2d1'][Math.floor(Math.random() * 3)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.opacity = Math.random();
+                document.getElementById('celebration').appendChild(confetti);
+            }
         }
     </script>
 </body>
